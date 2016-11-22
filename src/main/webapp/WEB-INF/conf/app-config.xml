@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-init-method="init"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:cxf="http://cxf.apache.org/core" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd 
+        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<context:annotation-config />
+
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	
+	<context:component-scan base-package="com.cfm.common.service" />
+	<context:component-scan base-package="com.db.service" />
+	<context:component-scan base-package="com.cfm.ws.service.impl" />
+	<context:component-scan base-package="com.cfm.common.provider" />
+	<context:component-scan base-package="com.cfm.common.interceptor" />
+	<context:component-scan base-package="com.cfm.common.swagger" />
+
+	<bean id="metricService" class="com.cfm.common.metric.MetricService" />
+	<bean class="org.apache.cxf.interceptor.LoggingInInterceptor" id="loggingInInterceptor" />
+	<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor" id="logOutInterceptor" />
+
+	<util:properties id="appProps" location="classpath:application.properties" />
+	<context:property-placeholder properties-ref="appProps" />	
+	<util:properties id="dbProps" location="classpath:dbcfg.properties" />
+	<context:property-placeholder properties-ref="dbProps" />
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	    <property name="driverClassName" value="#{dbProps['db.driver']}"/>
+	    <property name="url" value="#{dbProps['db.jdbcurl']}"/>
+	    <property name="username" value="#{dbProps['db.username']}"/>
+	    <property name="password" value="#{dbProps['db.password']}"/>
+	</bean>
+
+	<cxf:bus>
+		<cxf:inInterceptors>
+			<ref bean="openCXFInCallInterceptor" />
+			<ref bean="loggingInInterceptor" />
+		</cxf:inInterceptors>
+		<cxf:outInterceptors>
+			<ref bean="logOutInterceptor" />
+		</cxf:outInterceptors>
+	</cxf:bus>
+
+	<bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+
+	<!-- WADL generator -->
+	<bean id="wadlGenerator" class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
+		<property name="applicationTitle" value="#{appProps['wadl.generator.application.title']}" />
+		<property name="linkJsonToXmlSchema" value="#{appProps['wadl.generator.link.json.to.xml.schema']}" />
+	</bean>
+
+	<!-- WADL generator added for CXF 3.0 -->
+	<jaxrs:server id="jaxrsRestServer"
+		address="#{appProps['jaxrs.rest.server.address']}">
+		<jaxrs:serviceBeans>
+			<ref bean="cfmRestService" />
+			<ref bean="metricRestService" />
+			<ref bean="swaggerRestService" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<!-- <ref bean="requestHandlerProvider" /> -->
+			<ref bean="jsonProvider" />
+			<ref bean="wadlGenerator" />
+			<ref bean="webAppErrorExceptionProvider" />
+			<ref bean="jsonMappingErrorExceptionProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<!-- Scala beans -->
+	<!-- Swagger API listing resource -->
+	<bean id="swaggerResourceJSON"
+		class="com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON" />
+	<bean id="swaggerResourceNOTJSON" class="com.wordnik.swagger.jaxrs.listing.ApiListingResource" />
+
+	<!-- Swagger writers -->
+	<bean id="resourceWriter" class="com.wordnik.swagger.jaxrs.listing.ResourceListingProvider" />
+	<bean id="apiWriter" class="com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider" />
+
+	<bean class="org.apache.cxf.jaxrs.JAXRSServerFactoryBean"
+		init-method="create">
+		<property name="address" value="#{appProps['cxf.jaxrs.bean.address']}" />
+		<property name="serviceBeans">
+			<list>
+				<!-- Swagger API Listing resource -->
+				<ref bean="swaggerResourceJSON" />
+			</list>
+		</property>
+		<property name="providers">
+			<list>
+				<!-- required for writing swagger classes -->
+				<ref bean="resourceWriter" />
+				<ref bean="apiWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="swaggerConfig" class="com.wordnik.swagger.jaxrs.config.BeanConfig">
+		<property name="resourcePackage" value="com.cfm.ws.service" />
+		<property name="version" value="#{appProps['swagger.version']}" />
+		<property name="basePath" value="#{appProps['swagger.base.path']}" />
+		<property name="title" value="#{appProps['swagger.title']}" />
+		<property name="description" value="#{appProps['swagger.description']}" />
+		<property name="contact" value="#{appProps['swagger.contact']}" />
+		<property name="license" value="#{appProps['swagger.license']}" />
+		<property name="licenseUrl" value="#{appProps['swagger.license.url']}" />
+		<property name="scan" value="#{appProps['swagger.scan']}" />
+	</bean>
+
+	<!-- AOP Config -->
+	<aop:config proxy-target-class="false">
+		<aop:aspect id="aspectLogger" ref="timeProfilerService">
+			<aop:pointcut id="pointcutAround" expression="execution(public * com.db.service.*Service.*(..))" />
+			<aop:around method="logTimeElapsed" pointcut-ref="pointcutAround" />
+		</aop:aspect>
+
+		<aop:aspect id="aspectHealthCheckTimer" ref="requestResponseAOPService">
+			<aop:pointcut id="pointcutAround" expression="execution(public * com.cfm.ws.service.impl.*Service.*(..))" />
+			<aop:around method="requestResponseTimeElapsed" pointcut-ref="pointcutAround" />
+		</aop:aspect>
+	</aop:config>
+
+	<!-- Get host name and makes it as Singleton bean. -->
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost" />
+
+	<bean id="hostname" factory-bean="localhostInetAddress" factory-method="getHostName" />
+
+</beans>

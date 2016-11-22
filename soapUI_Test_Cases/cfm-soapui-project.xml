@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="2af55cac-c367-4826-8489-e0514c23821c"
+	activeEnvironment="Default" name="cfm-rest-api-1" resourceRoot=""
+	soapui-version="5.2.1" xmlns:con="http://eviware.com/soapui/config">
+	<con:settings />
+	<con:interface xsi:type="con:RestService"
+		id="a9f07c88-c7f2-448f-9577-3f602bde3fe6" wadlVersion="http://wadl.dev.java.net/2009/02"
+		name="Sample CFM Project" type="rest" basePath="/cfm-rest-api-1.0/rest-api/services"
+		definitionUrl="http://localhost:8080/cfm-rest-api-1.0/rest-api/services?_wadl"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<con:settings />
+		<con:definitionCache />
+		<con:endpoints>
+			<con:endpoint>http://localhost:8080</con:endpoint>
+		</con:endpoints>
+		<con:resource name="/cfmRestService" path="/cfmRestService"
+			id="f4e8361c-da9d-48ad-981f-925cdea81182">
+			<con:settings />
+			<con:parameters />
+			<con:resource name="/balanceOfPlayer/{playerId}" path="/balanceOfPlayer/{playerId}"
+				id="ccb171a1-b093-4152-8867-3b5d57020835">
+				<con:settings />
+				<con:parameters>
+					<con:parameter>
+						<con:name>playerId</con:name>
+						<con:value xsi:nil="true" />
+						<con:style>TEMPLATE</con:style>
+						<con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:int</con:type>
+						<con:default xsi:nil="true" />
+					</con:parameter>
+				</con:parameters>
+				<con:method name="GET" id="320411aa-1561-487b-ba96-ba9940905ec3"
+					method="GET">
+					<con:settings />
+					<con:parameters />
+					<con:representation type="RESPONSE" id="">
+						<con:mediaType>application/json</con:mediaType>
+						<con:params />
+						<con:element xsi:nil="true" />
+						<con:description xsi:nil="true" />
+					</con:representation>
+					<con:request name="Request 1"
+						id="47970c09-dda5-4cc4-aee1-baeaf713a784" mediaType="application/json">
+						<con:settings>
+							<con:setting
+								id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+						</con:settings>
+						<con:endpoint>http://localhost:8080</con:endpoint>
+						<con:request />
+						<con:originalUri>http://localhost/cfm-rest-api-1.0/rest-api/services/cfmRestService/balanceOfPlayer/1
+						</con:originalUri>
+						<con:credentials>
+							<con:authType>No Authorization</con:authType>
+						</con:credentials>
+						<con:jmsConfig JMSDeliveryMode="PERSISTENT" />
+						<con:jmsPropertyConfig />
+						<con:parameters>
+							<entry key="playerId" value="1"
+								xmlns="http://eviware.com/soapui/config" />
+						</con:parameters>
+					</con:request>
+				</con:method>
+			</con:resource>
+		</con:resource>
+		<con:resource name="/metricRestService" path="/metricRestService"
+			id="c21d8fe2-ad53-45d8-b3de-203e589497af">
+			<con:settings />
+			<con:parameters />
+			<con:resource name="/fetchMetricRegistry" path="/fetchMetricRegistry"
+				id="6da4915e-3924-4e21-bcbe-e579783a1842">
+				<con:settings />
+				<con:parameters />
+				<con:method name="GET" id="4f28186e-6f34-42d7-9e62-87313c6dd9c6"
+					method="GET">
+					<con:settings />
+					<con:parameters>
+						<con:parameter>
+							<con:name>operationName</con:name>
+							<con:value xsi:nil="true" />
+							<con:style>QUERY</con:style>
+							<con:default xsi:nil="true" />
+						</con:parameter>
+					</con:parameters>
+					<con:representation type="RESPONSE" id="">
+						<con:mediaType>application/json</con:mediaType>
+						<con:params />
+						<con:element xsi:nil="true" />
+						<con:description xsi:nil="true" />
+					</con:representation>
+					<con:request name="Request 1"
+						id="8a7514fc-01e6-481d-99c6-f19d9546ebc3" mediaType="application/json">
+						<con:settings />
+						<con:endpoint>http://localhost:8080</con:endpoint>
+						<con:parameters />
+					</con:request>
+				</con:method>
+			</con:resource>
+			<con:resource name="/healthCheck" path="/healthCheck"
+				id="2f0dd848-1047-47eb-85d7-9114d93c8ee8">
+				<con:settings />
+				<con:parameters />
+				<con:method name="GET" id="6ddb2868-3f0f-4ffe-a63b-0024497146da"
+					method="GET">
+					<con:settings />
+					<con:parameters />
+					<con:representation type="RESPONSE" id="">
+						<con:mediaType>application/json</con:mediaType>
+						<con:params />
+						<con:element xsi:nil="true" />
+						<con:description xsi:nil="true" />
+					</con:representation>
+					<con:request name="Request 1"
+						id="1e1f8021-d8cf-430e-861f-4f73b8bb6111" mediaType="application/json">
+						<con:settings />
+						<con:endpoint>http://localhost:8080</con:endpoint>
+						<con:parameters />
+					</con:request>
+				</con:method>
+			</con:resource>
+		</con:resource>
+		<con:resource name="/swaggerRestService" path="/swaggerRestService"
+			id="d83d7490-b216-46b3-aff5-d972d82f0f80">
+			<con:settings />
+			<con:parameters />
+			<con:resource name="/fatchDevHealthCheck" path="/fatchDevHealthCheck"
+				id="33db22fb-2737-4500-8919-bda630fe6f77">
+				<con:settings />
+				<con:parameters />
+				<con:method name="GET" id="377fe48c-b992-4a69-83b4-aefc2a2997f6"
+					method="GET">
+					<con:settings />
+					<con:parameters />
+					<con:representation type="RESPONSE" id="">
+						<con:mediaType>application/json</con:mediaType>
+						<con:params />
+						<con:element xsi:nil="true" />
+						<con:description xsi:nil="true" />
+					</con:representation>
+					<con:request name="Request 1"
+						id="154aba4e-059e-4649-b8e1-df5f0006b226" mediaType="application/json">
+						<con:settings>
+							<con:setting
+								id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+						</con:settings>
+						<con:endpoint>http://localhost:8080</con:endpoint>
+						<con:request />
+						<con:originalUri>http://localhost/cfm-rest-api-1.0/rest-api/services/swaggerRestService/fatchDevHealthCheck
+						</con:originalUri>
+						<con:credentials>
+							<con:authType>No Authorization</con:authType>
+						</con:credentials>
+						<con:jmsConfig JMSDeliveryMode="PERSISTENT" />
+						<con:jmsPropertyConfig />
+						<con:parameters />
+					</con:request>
+				</con:method>
+			</con:resource>
+			<con:resource name="/fatchDevMetricRegistry" path="/fatchDevMetricRegistry"
+				id="a18fcc49-90ca-49c2-9a30-3da10b9792f4">
+				<con:settings />
+				<con:parameters />
+				<con:method name="GET" id="c306a176-7727-469c-8705-97063a17a1bb"
+					method="GET">
+					<con:settings />
+					<con:parameters />
+					<con:representation type="RESPONSE" id="">
+						<con:mediaType>application/json</con:mediaType>
+						<con:params />
+						<con:element xsi:nil="true" />
+						<con:description xsi:nil="true" />
+					</con:representation>
+					<con:request name="Request 1"
+						id="61fd4d5c-eedf-486b-a040-bce5325b32ae" mediaType="application/json">
+						<con:settings />
+						<con:endpoint>http://localhost:8080</con:endpoint>
+						<con:parameters />
+					</con:request>
+				</con:method>
+			</con:resource>
+			<con:resource name="/fatchProdHealthCheck" path="/fatchProdHealthCheck"
+				id="e069ec5c-4fd7-44a4-b6ee-0347fa1f838a">
+				<con:settings />
+				<con:parameters />
+				<con:method name="GET" id="da5675b8-9e5a-42e1-9350-1ddfb4afe384"
+					method="GET">
+					<con:settings />
+					<con:parameters />
+					<con:representation type="RESPONSE" id="">
+						<con:mediaType>application/json</con:mediaType>
+						<con:params />
+						<con:element xsi:nil="true" />
+						<con:description xsi:nil="true" />
+					</con:representation>
+					<con:request name="Request 1"
+						id="289bb5c5-a7e4-45a3-95aa-f5f562b3e90b" mediaType="application/json">
+						<con:settings />
+						<con:endpoint>http://localhost:8080</con:endpoint>
+						<con:parameters />
+					</con:request>
+				</con:method>
+			</con:resource>
+			<con:resource name="/fatchProdMetricRegistry" path="/fatchProdMetricRegistry"
+				id="02ddecbe-539c-458b-844d-cc677f49805b">
+				<con:settings />
+				<con:parameters />
+				<con:method name="GET" id="9c445674-4063-4e3c-b9f2-ba6a71419651"
+					method="GET">
+					<con:settings />
+					<con:parameters />
+					<con:representation type="RESPONSE" id="">
+						<con:mediaType>application/json</con:mediaType>
+						<con:params />
+						<con:element xsi:nil="true" />
+						<con:description xsi:nil="true" />
+					</con:representation>
+					<con:request name="Request 1"
+						id="9d792036-c85e-4607-92af-998027bed982" mediaType="application/json">
+						<con:settings />
+						<con:endpoint>http://localhost:8080</con:endpoint>
+						<con:parameters />
+					</con:request>
+				</con:method>
+			</con:resource>
+		</con:resource>
+	</con:interface>
+	<con:properties />
+	<con:wssContainer />
+	<con:oAuth2ProfileContainer />
+</con:soapui-project>

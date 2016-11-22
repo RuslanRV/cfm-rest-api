@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+	debug="false">
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.EnhancedPatternLayout">
+			<param name="ConversionPattern"
+				value="%d{ISO8601} %-5p [HOST=%X{HOSTNAME}] [T=%t] [%F:%L] : %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="./logs/cfm-ws.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.EnhancedPatternLayout">
+			<param name="ConversionPattern"
+				value="%d{ISO8601} %-5p [HOST=%X{HOSTNAME}] [T=%t] [%F:%L] : %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="PROFILER" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="./logs/cfm-profiler.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.EnhancedPatternLayout">
+			<param name="ConversionPattern"
+				value="%d{ISO8601} | %-5p [HOST=%X{HOSTNAME}] [T=%t] | [%c{1}] %m%n" />
+		</layout>
+	</appender>
+
+	<category name="org.codehaus.groovy" additivity="true">
+		<priority value="DEBUG" />
+	</category>
+	<category name="org.apache.cxf" additivity="true">
+		<priority value="TRACE" />
+	</category>
+	<category name="javax.ws.rs" additivity="true">
+		<priority value="ERROR" />
+	</category>
+	<category name="com.cfm" additivity="true">
+		<priority value="INFO" />
+	</category>
+	<category name="com.cfm.ws" additivity="true">
+		<priority value="ERROR" />
+	</category>
+	<category name="com.cfm.ws.service" additivity="true">
+		<priority value="DEBUG" />
+	</category>
+	<category name="com.cfm.common.service" additivity="true">
+		<priority value="DEBUG" />
+	</category>
+	<category name="com.cfm.common.provider" additivity="true">
+		<priority value="ERROR" />
+	</category>
+	<category name="com.db.service" additivity="true">
+		<priority value="DEBUG" />
+	</category>
+	<category name="org.springframework" additivity="true">
+		<priority value="INFO" />
+	</category>
+	<category name="com.cfm.common.service.TimeProfilerService">
+		<priority value="INFO" />
+	</category>
+	<category name="com.wordnik">
+		<priority value="DEBUG" />
+	</category>
+	<logger name="TimeProfilerService" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="PROFILER" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<root>
+		<priority value="DEBUG" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</root>
+</log4j:configuration>

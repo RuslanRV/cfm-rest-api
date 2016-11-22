@@ -1,0 +1,200 @@
+{
+  "apiVersion" : "v1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8084/rest-api/services",
+  "resourcePath" : "/metricRestService",
+  "produces" : [ "application/json" ],
+  "consumes" : [ "application/json" ],
+  "apis" : [ {
+    "path" : "/metricRestService/fetchMetricRegistry",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "No input parameter required",
+      "notes" : "YELLOW Fetch the API Services Call Counter",
+      "type" : "MetricRegistryResponse",
+      "nickname" : "fetchMetricRegistry",
+      "authorizations" : { },
+      "parameters" : [ ]
+    } ]
+  }, {
+    "path" : "/metricRestService/healthCheck",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "No input parameter required",
+      "notes" : "YELLOW Fetch the API DB Health Check",
+      "type" : "HealthCheckResponse",
+      "nickname" : "healthCheck",
+      "authorizations" : { },
+      "parameters" : [ ]
+    } ]
+  } ],
+  "models" : {
+    "MetricRegistryResponse" : {
+      "id" : "MetricRegistryResponse",
+      "properties" : {
+        "registries" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ServicesRegistry"
+          }
+        },
+        "errorMessage" : {
+          "type" : "string"
+        },
+        "success" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "DBConnection" : {
+      "id" : "DBConnection",
+      "properties" : {
+        "driver" : {
+          "type" : "string"
+        },
+        "jdbcurl" : {
+          "type" : "string"
+        },
+        "username" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ServicesRegistry" : {
+      "id" : "ServicesRegistry",
+      "properties" : {
+        "callCounter" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "calledLastHour" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "calledLast24Hours" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "averageResponse" : {
+          "type" : "string"
+        },
+        "operationName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "HealthCheckResponse" : {
+      "id" : "HealthCheckResponse",
+      "properties" : {
+        "status" : {
+          "type" : "string"
+        },
+        "dbConnection" : {
+          "$ref" : "DBConnection"
+        },
+        "jvm" : {
+          "$ref" : "JVMProperties"
+        },
+        "appProperties" : {
+          "$ref" : "AppProperties"
+        },
+        "currentLoggers" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "CurrentLogger"
+          }
+        },
+        "errorMessage" : {
+          "type" : "string"
+        },
+        "success" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "CurrentLogger" : {
+      "id" : "CurrentLogger",
+      "properties" : {
+        "logger" : {
+          "type" : "string"
+        },
+        "level" : {
+          "type" : "string"
+        }
+      }
+    },
+    "JVMProperties" : {
+      "id" : "JVMProperties",
+      "properties" : {
+        "currentMemoryUsage" : {
+          "type" : "string"
+        },
+        "osName" : {
+          "type" : "string"
+        },
+        "applicationName" : {
+          "type" : "string"
+        },
+        "javaRuntimeVersion" : {
+          "type" : "string"
+        },
+        "javaVersion" : {
+          "type" : "string"
+        },
+        "javaRuntimeName" : {
+          "type" : "string"
+        },
+        "javaVMName" : {
+          "type" : "string"
+        },
+        "javaSpecVersion" : {
+          "type" : "string"
+        },
+        "upTime" : {
+          "type" : "string"
+        }
+      }
+    },
+    "AppProperties" : {
+      "id" : "AppProperties",
+      "properties" : {
+        "wadlGeneratorAppTitle" : {
+          "type" : "string"
+        },
+        "wadlGeneratorLinkJsonToXmlSchema" : {
+          "type" : "boolean"
+        },
+        "jaxrsRestServerAddress" : {
+          "type" : "string"
+        },
+        "cxfJaxrsBeanAddress" : {
+          "type" : "string"
+        },
+        "swaggerVersion" : {
+          "type" : "string"
+        },
+        "swaggerBasePath" : {
+          "type" : "string"
+        },
+        "swaggerTitle" : {
+          "type" : "string"
+        },
+        "swaggerDescription" : {
+          "type" : "string"
+        },
+        "swaggerContact" : {
+          "type" : "string"
+        },
+        "swaggerLicense" : {
+          "type" : "string"
+        },
+        "swaggerLicenseUrl" : {
+          "type" : "string"
+        },
+        "swaggerScan" : {
+          "type" : "boolean"
+        }
+      }
+    }
+  }
+}

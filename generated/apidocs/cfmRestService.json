@@ -1,0 +1,71 @@
+{
+  "apiVersion" : "v1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8084/rest-api/services",
+  "resourcePath" : "/cfmRestService",
+  "produces" : [ "application/json" ],
+  "consumes" : [ "*" ],
+  "apis" : [ {
+    "path" : "/cfmRestService/balanceOfPlayer/{playerId}",
+    "operations" : [ {
+      "method" : "GET",
+      "summary" : "Player Id",
+      "notes" : "GREEN retrieves a player ID and returns his current balance.",
+      "type" : "BalanceResponse",
+      "nickname" : "balanceOfPlayer",
+      "authorizations" : { },
+      "parameters" : [ {
+        "name" : "playerId",
+        "description" : "Player unique ID.",
+        "required" : true,
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "path"
+      } ],
+      "responseMessages" : [ {
+        "code" : 404,
+        "message" : "Balance not found"
+      }, {
+        "code" : 400,
+        "message" : "Invalid Player ID supplied"
+      }, {
+        "code" : 500,
+        "message" : "Server Error"
+      } ]
+    } ]
+  } ],
+  "models" : {
+    "BigDecimal" : {
+      "id" : "BigDecimal",
+      "properties" : {
+        "scale" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "precision" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "BalanceResponse" : {
+      "id" : "BalanceResponse",
+      "description" : "Balance Response",
+      "properties" : {
+        "playerId" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "balance" : {
+          "$ref" : "BigDecimal"
+        },
+        "errorMessage" : {
+          "type" : "string"
+        },
+        "success" : {
+          "type" : "boolean"
+        }
+      }
+    }
+  }
+}

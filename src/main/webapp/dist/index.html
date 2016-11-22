@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Swagger UI</title>
+<link href="css/fonts.css?v=v1" rel="stylesheet" type="text/css" />
+<link href="css/reset.css?v=v1" media="screen" rel="stylesheet"
+	type="text/css" />
+<link href="css/screen.css?v=v1" media="screen" rel="stylesheet"
+	type="text/css" />
+<link href="css/healthEnvir.css?v=v1" media="screen" rel="stylesheet"
+	type="text/css" />
+<script type="text/javascript" src="lib/shred.bundle.js?v=v1"></script>
+<script src="lib/jquery-1.8.0.min.js?v=v1" type="text/javascript"></script>
+<script src="lib/jquery.slideto.min.js?v=v1" type="text/javascript"></script>
+<script src="lib/jquery.wiggle.min.js?v=v1" type="text/javascript"></script>
+<script src="lib/jquery.ba-bbq.min.js?v=v1" type="text/javascript"></script>
+<script src="lib/handlebars-1.0.0.js?v=v1" type="text/javascript"></script>
+<script src="lib/underscore-min.js?v=v1" type="text/javascript"></script>
+<script src="lib/backbone-min.js?v=v1" type="text/javascript"></script>
+<script src="lib/swagger.js?v=v1" type="text/javascript"></script>
+<script src="swagger-ui.js?v=v1" type="text/javascript"></script>
+<script src="health-script.js?v=v1" type="text/javascript"></script>
+<script src="lib/highlight.7.3.pack.js?v=v1" type="text/javascript"></script>
+
+<!-- enabling this will enable oauth2 implicit scope support -->
+<script src="lib/swagger-oauth.js?v=v1" type="text/javascript"></script>
+
+<script type="text/javascript">
+	$(function() {
+		window.swaggerUi = new SwaggerUi({
+			url : window.location.protocol + "//" + window.location.host + "/cfm-rest-api-1.0/rest-api/api-docs",
+			dom_id : "swagger-ui-container",
+			supportedSubmitMethods : [ 'get', 'post', 'put', 'delete' ],
+			onComplete : function(swaggerApi, swaggerUi) {
+				log("Loaded SwaggerUI");
+
+				if (typeof initOAuth == "function") {
+					/*
+					initOAuth({
+					  clientId: "your-client-id",
+					  realm: "your-realms",
+					  appName: "your-app-name"
+					});
+					 */
+				}
+				$('pre code').each(function(i, e) {
+					hljs.highlightBlock(e)
+				});
+			},
+			onFailure : function(data) {
+				log("Unable to Load SwaggerUI");
+			},
+			docExpansion : "none"
+		});
+
+		$('#input_apiKey').change(
+				function() {
+					var key = $('#input_apiKey')[0].value;
+					log("key: " + key);
+					if (key && key.trim() != "") {
+						log("added key " + key);
+						window.authorizations
+								.add("key", new ApiKeyAuthorization("api_key",
+										key, "query"));
+					}
+				})
+		window.swaggerUi.load();
+	});
+</script>
+</head>
+
+<body class="swagger-section">
+	<div id='header'>
+		<div class="swagger-ui-wrap">
+			<a id="logo" href="http://swagger.wordnik.com">swagger</a>
+			<form id='api_selector'>
+				<div class='input icon-btn'>
+					<img id="show-pet-store-icon" src="images/pet_store_api.png"
+						title="Show Swagger Petstore Example Apis">
+				</div>
+				<div class='input icon-btn'>
+					<img id="show-wordnik-dev-icon" src="images/wordnik_api.png"
+						title="Show Wordnik Developer Apis">
+				</div>
+				<div class='input'>
+					<input placeholder="http://example.com/api" id="input_baseUrl"
+						name="baseUrl" type="text" />
+				</div>
+				<div class='input'>
+					<input placeholder="api_key" id="input_apiKey" name="apiKey"
+						type="text" />
+				</div>
+				<div class='input'>
+					<a id="explore" href="#">Explore</a>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div id="message-bar" class="swagger-ui-wrap">&nbsp;</div>
+	<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+	<div id="health-of-environments" class="swagger-ui-wrap">
+
+		<!-- Start Loader -->
+		<div class="main-content">
+			<div id="environments-loader">
+				<div class="loader-content">
+					<img src="images/throbber.gif">
+					<h4>Loading...</h4>
+				</div>
+			</div>
+			<!-- End Loader -->
+
+			<!-- Start Title -->
+			<div class="info">
+				<div class="info_title">
+					<span>Health List of All The Environments</span>
+					<button id="refresh">Refresh</button>
+				</div>
+				<div class="info_description">Here is shown the health list of
+					all the environments</div>
+			</div>
+			<!-- End Title  -->
+
+			<!-- Start Content -->
+			<div class="container">
+				<ul class="endpoint">
+
+					<!-- DEV Environments--->
+					<li class="endpoint">
+						<ul class="operations">
+							<li class="operation dev_environments">
+								<div class="envire_name">
+									<h3>
+										<span class="status_color"> <a href="javascript:;">S
+												Color</a>
+										</span> <span class="path"> <a href="javascript:;"
+											class="toggleOperation">Development Environment</a>
+										</span>
+									</h3>
+								</div>
+								<div class="envire_content hide-environments-content">
+
+									<div class="dev_health_check toggle_headers">
+										<div class="dev_health_check_header">
+											<h4>
+												<span> <a href="javascript:;" class="toggleOperation">Dev
+														Health Check</a>
+												</span>
+											</h4>
+										</div>
+										<div
+											class="content hide-environments-content hiding-script empty-check">
+											<p>Content</p>
+										</div>
+									</div>
+
+									<div class="dev_metric_registry toggle_headers">
+										<div class="dev_metric_registry_header">
+											<h4>
+												<span> <a href="javascript:;" class="toggleOperation">Dev
+														Metric Registry</a>
+												</span>
+											</h4>
+										</div>
+										<div
+											class="content hide-environments-content hiding-script empty-check">
+											<p>Content</p>
+										</div>
+									</div>
+
+								</div>
+							</li>
+						</ul>
+					</li>
+
+					<!-- PRODUCTION Environment--->
+					<li class="endpoint">
+						<ul class="operations">
+							<li class="operation prod_environments">
+								<div class="envire_name">
+									<h3>
+										<span class="status_color "> <a href="javascript:;">S
+												Color</a>
+										</span> <span class="path"> <a href="javascript:;"
+											class="toggleOperation">Production Environment</a>
+										</span>
+									</h3>
+								</div>
+								<div class="envire_content hide-environments-content">
+
+									<div class="prod_health_check toggle_headers">
+										<div class="prod_health_check_header">
+											<h4>
+												<span> <a href="javascript:;" class="toggleOperation">Production
+														Health Check</a>
+												</span>
+											</h4>
+										</div>
+										<div
+											class="content hide-environments-content hiding-script empty-check">
+											<p>Content</p>
+										</div>
+									</div>
+
+									<div class="prod_metric_registry toggle_headers">
+										<div class="prod_metric_registry_header">
+											<h4>
+												<span> <a href="javascript:;" class="toggleOperation">Production
+														Metric Registry</a>
+												</span>
+											</h4>
+										</div>
+										<div
+											class="content hide-environments-content hiding-script empty-check">
+											<p>Content</p>
+										</div>
+									</div>
+
+								</div>
+							</li>
+						</ul>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+		<!-- End Content -->
+	</div>
+</body>
+</html>

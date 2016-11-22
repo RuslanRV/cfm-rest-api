@@ -1,0 +1,11 @@
+{
+  "apiVersion" : "v1",
+  "swaggerVersion" : "1.2",
+  "apis" : [ {
+    "path" : "/metricRestService.{format}",
+    "description" : "API ontop of CFM"
+  }, {
+    "path" : "/cfmRestService.{format}",
+    "description" : "API ontop of CFM"
+  } ]
+}
